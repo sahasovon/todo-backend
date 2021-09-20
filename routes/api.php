@@ -22,5 +22,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/generate-token', [UserTokenController::class, 'generateToken']);
-//Route::get('tasks/load', [TaskController::class]);
-//Route::put('tasks/save', [TaskController::class]);
+
+Route::middleware(['verify.token'])
+    ->prefix('tasks')
+    ->group(function () {
+        Route::get('/', [TaskController::class, 'index']);
+        Route::post('/', [TaskController::class, 'store']);
+        Route::put('/save', [TaskController::class, 'save']);
+});
