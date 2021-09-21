@@ -72,6 +72,8 @@ class TaskController extends Controller
         $tasks = $tasks->map(function ($t) use ($userToken) {
             $t['user_uuid'] = $userToken;
             $t['task_name'] = array_key_exists('task_name', $t) ? $t['task_name'] : "";
+            $t['created_at'] = now();
+            $t['updated_at'] = now();
 
             return $t;
         });
