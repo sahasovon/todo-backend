@@ -29,4 +29,5 @@ Route::middleware(['verify.token'])
         Route::get('/', [TaskController::class, 'index']);
         Route::post('/', [TaskController::class, 'store']);
         Route::put('/save', [TaskController::class, 'save']);
+        Route::delete('/clear', [TaskController::class, 'clear']);
 });

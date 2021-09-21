@@ -91,4 +91,19 @@ class TaskController extends Controller
             'message' => 'All tasks updated successfully'
         ]);
     }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function clear(Request $request)
+    {
+        $userToken = $request->get('userToken');
+
+        Task::where('user_uuid', $userToken)->delete();
+
+        return response()->json([
+            'message' => 'All tasks deleted successfully'
+        ]);
+    }
 }
