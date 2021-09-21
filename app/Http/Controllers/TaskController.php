@@ -67,16 +67,23 @@ class TaskController extends Controller
     {
         $userToken = $request->get('userToken');
         $tasks = collect($request->get('tasks'));
+        $taskIds = [];
 
         // Add not default values to array
         $tasks = $tasks->map(function ($t) use ($userToken) {
-            $t['user_uuid'] = $userToken;
-            $t['task_name'] = array_key_exists('task_name', $t) ? $t['task_name'] : "";
-            $t['created_at'] = now();
-            $t['updated_at'] = now();
+            $taskIds[] = $t['id'];
 
-            return $t;
+            $task['id'] = $t['id'];
+            $task['user_uuid'] = $userToken;
+            $task['task_name'] = array_key_exists('task_name', $t) ? $t['task_name'] : "";
+            $task['created_at'] = now();
+            $task['updated_at'] = now();
+
+            return $task;
         });
+
+        // Remove tasks that aren't in the list
+        Task::where('user_uuid', $userToken)->whereNotIn('id', $taskIds)->delete();
 
         // Update only is_complete value
         try {
