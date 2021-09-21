@@ -76,6 +76,7 @@ class TaskController extends Controller
             $task['id'] = $t['id'];
             $task['user_uuid'] = $userToken;
             $task['task_name'] = array_key_exists('task_name', $t) ? $t['task_name'] : "";
+            $task['is_complete'] = (isset($t['is_complete']) && $t['is_complete']) ? 1 : 0;
             $task['created_at'] = now();
             $task['updated_at'] = now();
 
